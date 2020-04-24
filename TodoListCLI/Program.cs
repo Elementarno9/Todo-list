@@ -1,12 +1,11 @@
-﻿using System;
-
-namespace TodoListCLI
+﻿namespace TodoListCLI
 {
     class Program
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            CLI cli = new CLI();
+            cli.Run();
         }
     }
 }
