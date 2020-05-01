@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using TodoListCLI.Commands;
 
@@ -13,6 +14,7 @@ namespace TodoListCLI
         {
             ["add"] = new AddTodoCommand(),
             ["search"] = new SearchCommand(),
+            ["list"] = new ListTodoCommand(),
             ["help"] = new HelpCommand(),
             ["exit"] = new ExitCommand(),
         };
@@ -57,6 +59,18 @@ namespace TodoListCLI
         {
             Console.Write(line);
             return Console.ReadLine();
+        }
+
+        public static DateTime GetDateTimeFromInput(string line = "", string format = "dd.MM.yyyy")
+        {
+            DateTime result;
+
+            while (!DateTime.TryParseExact(GetConsoleInput(line), format, CultureInfo.InvariantCulture, DateTimeStyles.None, out result))
+            {
+                Console.WriteLine("Error: invalid input. ({0})", format.ToLower());
+            }
+
+            return result;
         }
     }
 }
