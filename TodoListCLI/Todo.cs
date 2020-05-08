@@ -5,12 +5,12 @@ namespace TodoListCLI
 {
     enum TodoStatus
     {
-        InProgress,
+        Active,
         Success,
         Failure
     }
 
-    struct Todo
+    class Todo
     {
         public string Title { get; private set; }
         public string Description { get; private set; }
@@ -25,7 +25,7 @@ namespace TodoListCLI
             Description = description;
             Deadline = deadline;
             Tags = tags ?? new List<string>();
-            Status = TodoStatus.InProgress;
+            Status = TodoStatus.Active;
         }
 
         public bool AddTag(string tag)

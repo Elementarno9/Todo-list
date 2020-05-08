@@ -13,6 +13,7 @@ namespace TodoListCLI
         public static readonly Dictionary<string, ICommand> Commands = new Dictionary<string, ICommand>()
         {
             ["add"] = new AddTodoCommand(),
+            ["change"] = new ChangeStatusCommand(),
             ["search"] = new SearchCommand(),
             ["list"] = new ListTodoCommand(),
             ["help"] = new HelpCommand(),

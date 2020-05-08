@@ -20,6 +20,6 @@ namespace TodoListCLI.Commands
 
             Console.WriteLine("Successfully added new todo!");
         }
-        public string HelpInfo() => "Add Todo to list.";
+        public string HelpInfo() => "Add Todo to list. For date use format `dd.mm.yyyy`, for tags type all wanted tags separated by spaces.";
     }
 }
