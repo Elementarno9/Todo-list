@@ -28,6 +28,6 @@ namespace TodoListCLI.Commands
             }
             TodoList.PrintTodos(status);
         }
-        public string HelpInfo() => "Get add current todos. Use arguments `active`, `success`, `failure` (`fail`) to list todos which have this status.";
+        public string HelpInfo() => "Get add current todos. Usage: `list <active/success/failure(fail)>`. Add argument to list todos which have this status.";
     }
 }

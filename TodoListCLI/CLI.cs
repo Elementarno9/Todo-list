@@ -8,6 +8,14 @@ namespace TodoListCLI
 {
     class CLI
     {
+        public static readonly Dictionary<string, ConsoleColor> ConsoleColors = new Dictionary<string, ConsoleColor>()
+        {
+            ["none"] = ConsoleColor.White,
+            ["input"] = ConsoleColor.Green,
+            ["success"] = ConsoleColor.Green,
+            ["error"] = ConsoleColor.Red
+        };
+
         public bool IsWorking { get; private set; }
 
         public static readonly Dictionary<string, ICommand> Commands = new Dictionary<string, ICommand>()
@@ -17,6 +25,7 @@ namespace TodoListCLI
             ["search"] = new SearchCommand(),
             ["list"] = new ListTodoCommand(),
             ["help"] = new HelpCommand(),
+            ["clear"] = new ClearCommand(),
             ["exit"] = new ExitCommand(),
         };
         public static CLI Current { get; private set; }
@@ -36,7 +45,7 @@ namespace TodoListCLI
                     HandleInput(GetConsoleInput("> ").Split());
                 } catch (TodoListException ex)
                 {
-                    Console.WriteLine("ERROR: {0}", ex.Message);
+                    ColorfulWriteLine($"ERROR: {ex.Message}", ConsoleColors["error"]);
                 }
             }
         }
@@ -50,15 +59,15 @@ namespace TodoListCLI
                 Commands[input[0]].Run(input.Skip(1).ToArray());
             } else
             {
-                throw new TodoListException("Command's not found. Try again or use `help`");
+                throw new TodoListException("Command's not found. Try again or use `help`.");
             }
         }
 
         public void Stop() => IsWorking = false;
 
-        public static string GetConsoleInput(string line = "")
+        public static string GetConsoleInput(string line = "", bool colorful = true)
         {
-            Console.Write(line);
+            ColorfulWrite(line, ConsoleColors[colorful ? "input" : "none"]);
             return Console.ReadLine();
         }
 
@@ -68,10 +77,19 @@ namespace TodoListCLI
 
             while (!DateTime.TryParseExact(GetConsoleInput(line), format, CultureInfo.InvariantCulture, DateTimeStyles.None, out result))
             {
-                Console.WriteLine("Error: invalid input. ({0})", format.ToLower());
+                ColorfulWriteLine($"Error: invalid input. ({format.ToLower()})", ConsoleColors["error"]);
             }
 
             return result;
         }
+
+        public static void ColorfulWrite(string line, ConsoleColor color)
+        {
+            Console.ForegroundColor = color;
+            Console.Write(line);
+            Console.ResetColor();
+        }
+
+        public static void ColorfulWriteLine(string line, ConsoleColor color) => ColorfulWrite(line + "\n", color);
     }
 }

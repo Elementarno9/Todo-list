@@ -9,8 +9,8 @@ namespace TodoListCLI.Commands
     {
         public void Run(string[] args)
         {
-            string title = CLI.GetConsoleInput(" Title of todo: ");
-            string status_str = CLI.GetConsoleInput(" New status: ");
+            string title = args.Length > 0 ? args[0] : CLI.GetConsoleInput(" Title of todo: ");
+            string status_str = args.Length > 1 ? args[1] : CLI.GetConsoleInput(" New status: ");
             TodoStatus status;
 
             switch (status_str)
@@ -26,7 +26,7 @@ namespace TodoListCLI.Commands
                     throw new TodoListException("Invalid status.");
             }
 
-            var suitableTodos = TodoList.SortTodos(TodoList.Current.Todos.Where(todo => todo.Title == title).ToList()).ToList();
+            var suitableTodos = TodoList.SortTodos(TodoList.Current.Todos.Where(todo => todo.Title == title && todo.Status != status).ToList()).ToList();
             Todo toChange;
 
             if (suitableTodos.Count == 0) throw new TodoListException("No suitable todos.");
@@ -42,6 +42,6 @@ namespace TodoListCLI.Commands
             toChange.ChangeStatus(status);
             Console.WriteLine("Status changed.");
         }
-        public string HelpInfo() => "Change status of todo.";
+        public string HelpInfo() => "Change status of todo. Usage `change <title> <status>`.";
     }
 }
