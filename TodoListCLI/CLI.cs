@@ -28,11 +28,24 @@ namespace TodoListCLI
             ["clear"] = new ClearCommand(),
             ["exit"] = new ExitCommand(),
         };
-        public static CLI Current { get; private set; }
-
-        public CLI()
+        public static CLI Current
         {
-            Current ??= this;
+            get
+            {
+                current ??= new CLI();
+                return current;
+            }
+            private set
+            {
+                current = value;
+            }
+        }
+
+        private static CLI current;
+
+        static void Main(string[] args)
+        {
+            Current.Run();
         }
 
         public void Run()
