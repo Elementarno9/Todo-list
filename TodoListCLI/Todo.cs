@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
 
 namespace TodoListCLI
 {
@@ -19,13 +21,13 @@ namespace TodoListCLI
 
         public TodoStatus Status { get; private set; }
 
-        public Todo(string title, string description, DateTime deadline, List<string> tags = null)
+        public Todo(string title, string description, DateTime deadline, List<string> tags = null, TodoStatus status = TodoStatus.Active)
         {
             Title = title;
             Description = description;
             Deadline = deadline;
             Tags = tags ?? new List<string>();
-            Status = TodoStatus.Active;
+            Status = status;
         }
 
         public bool AddTag(string tag)
@@ -52,5 +54,9 @@ namespace TodoListCLI
         }
 
         public string[] GetInfo() => new[] { Title, Description, Deadline.ToString("dd.MM.yyyy"), string.Join(", ", Tags), Status.ToString() };
+
+        public static Todo CreateTodoFromInfo(Dictionary<string, string> info) =>
+            new Todo(info["Title"], info["Description"], DateTime.ParseExact(info["Deadline"], "dd.MM.yyyy", CultureInfo.InvariantCulture), info["Tags"].Split().ToList(),
+                (TodoStatus)Enum.Parse(typeof(TodoStatus), info["Status"]));
     }
 }

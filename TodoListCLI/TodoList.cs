@@ -7,11 +7,11 @@ namespace TodoListCLI
 {
     class TodoList
     {
-        public List<Todo> Todos { get; private set; } = new List<Todo>();
+        public List<Todo> Todos { get; private set; }
 
         public static TodoList Current {
             get {
-                current ??= new TodoList();
+                current ??= new TodoList(new List<Todo>());
                 return current;
             }
             private set {
@@ -20,6 +20,10 @@ namespace TodoListCLI
         }
 
         private static TodoList current;
+
+        public TodoList(List<Todo> list) { Todos = list; }
+
+        public static void ChangeCurrent(TodoList todoList) => Current = todoList;
 
         public static void PrintTodos(List<Todo> todos, TodoStatus? status = null)
         {

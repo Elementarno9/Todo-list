@@ -24,6 +24,8 @@ namespace TodoListCLI
             ["change"] = new ChangeStatusCommand(),
             ["search"] = new SearchCommand(),
             ["list"] = new ListTodoCommand(),
+            ["save"] = new SaveCommand(),
+            ["load"] = new LoadCommand(),
             ["help"] = new HelpCommand(),
             ["clear"] = new ClearCommand(),
             ["exit"] = new ExitCommand(),
@@ -55,7 +57,7 @@ namespace TodoListCLI
             {
                 try
                 {
-                    HandleInput(GetConsoleInput("> ").Split());
+                    HandleInput(GetConsoleInput("> ").Trim().Split());
                 } catch (TodoListException ex)
                 {
                     ColorfulWriteLine($"ERROR: {ex.Message}", ConsoleColors["error"]);
