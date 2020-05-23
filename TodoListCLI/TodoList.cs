@@ -2,24 +2,19 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Linq;
+using System.Runtime.Serialization;
 
 namespace TodoListCLI
 {
+    
+    [DataContract(Name="TodoList")]
     class TodoList
     {
-        public List<Todo> Todos { get; private set; } = new List<Todo>();
+        [DataMember]
+        public List<Todo> Todos { get; private set; }
 
-        public static TodoList Current {
-            get {
-                current ??= new TodoList();
-                return current;
-            }
-            private set {
-                current = value;
-            }
-        }
-
-        private static TodoList current;
+        public TodoList() : this(new List<Todo>()) { }
+        public TodoList(List<Todo> list) { Todos = list; }
 
         public static void PrintTodos(List<Todo> todos, TodoStatus? status = null)
         {
@@ -34,7 +29,7 @@ namespace TodoListCLI
             // Transform todos into information (string[])
             var tableStrings = SortTodos(todos).Select((todo, idx) => {
                 var result = todo.GetInfo().ToList();
-                result.Insert(0, (idx + 1).ToString());
+                result.Insert(0, (idx + 1).ToString()); // Add index of todo
                 return result.ToArray();
                 }).ToList();
             
@@ -61,7 +56,7 @@ namespace TodoListCLI
             lines.ForEach(Console.WriteLine);
         }
 
-        public static void PrintTodos(TodoStatus? status = null) => PrintTodos(Current.Todos, status);
+        public static void PrintTodos(TodoStatus? status = null) => PrintTodos(CLI.CurrentTodoList.Todos, status);
 
         public static IEnumerable<Todo> SortTodos(List<Todo> todos) => todos.OrderBy(todo => todo.Status).ThenBy(todo => todo.Deadline);
     }

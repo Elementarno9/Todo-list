@@ -6,7 +6,7 @@ using TodoListCLI.Commands;
 
 namespace TodoListCLI
 {
-    class CLI
+    static class CLI
     {
         public static readonly Dictionary<string, ConsoleColor> ConsoleColors = new Dictionary<string, ConsoleColor>()
         {
@@ -16,33 +16,50 @@ namespace TodoListCLI
             ["error"] = ConsoleColor.Red
         };
 
-        public bool IsWorking { get; private set; }
-
         public static readonly Dictionary<string, ICommand> Commands = new Dictionary<string, ICommand>()
         {
             ["add"] = new AddTodoCommand(),
             ["change"] = new ChangeStatusCommand(),
             ["search"] = new SearchCommand(),
             ["list"] = new ListTodoCommand(),
+            ["save"] = new SaveCommand(),
+            ["load"] = new LoadCommand(),
             ["help"] = new HelpCommand(),
             ["clear"] = new ClearCommand(),
             ["exit"] = new ExitCommand(),
         };
-        public static CLI Current { get; private set; }
 
-        public CLI()
+        public static TodoList CurrentTodoList
         {
-            Current ??= this;
+            get
+            {
+                currentTodoList ??= new TodoList();
+                return currentTodoList;
+            }
+            private set
+            {
+                currentTodoList = value;
+            }
         }
 
-        public void Run()
+        private static TodoList currentTodoList;
+        public static bool IsWorking { get; private set; }
+
+        public static void ChangeCurrentTodoList(TodoList todoList) => CurrentTodoList = todoList;
+
+        static void Main(string[] args)
+        {
+            Run();
+        }
+
+        static void Run()
         {
             IsWorking = true;
             while (IsWorking)
             {
                 try
                 {
-                    HandleInput(GetConsoleInput("> ").Split());
+                    HandleInput(GetConsoleInput("> ").Trim().Split());
                 } catch (TodoListException ex)
                 {
                     ColorfulWriteLine($"ERROR: {ex.Message}", ConsoleColors["error"]);
@@ -50,7 +67,7 @@ namespace TodoListCLI
             }
         }
 
-        private void HandleInput(string[] input)
+        private static void HandleInput(string[] input)
         {
             if (input.Length == 0 || string.IsNullOrWhiteSpace(input[0])) throw new TodoListException("Nothing in input.");
 
@@ -63,7 +80,7 @@ namespace TodoListCLI
             }
         }
 
-        public void Stop() => IsWorking = false;
+        public static void Stop() => IsWorking = false;
 
         public static string GetConsoleInput(string line = "", bool colorful = true)
         {
