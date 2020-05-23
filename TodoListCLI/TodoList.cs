@@ -9,21 +9,7 @@ namespace TodoListCLI
     {
         public List<Todo> Todos { get; private set; }
 
-        public static TodoList Current {
-            get {
-                current ??= new TodoList(new List<Todo>());
-                return current;
-            }
-            private set {
-                current = value;
-            }
-        }
-
-        private static TodoList current;
-
         public TodoList(List<Todo> list) { Todos = list; }
-
-        public static void ChangeCurrent(TodoList todoList) => Current = todoList;
 
         public static void PrintTodos(List<Todo> todos, TodoStatus? status = null)
         {
@@ -38,7 +24,7 @@ namespace TodoListCLI
             // Transform todos into information (string[])
             var tableStrings = SortTodos(todos).Select((todo, idx) => {
                 var result = todo.GetInfo().ToList();
-                result.Insert(0, (idx + 1).ToString());
+                result.Insert(0, (idx + 1).ToString()); // Add index of todo
                 return result.ToArray();
                 }).ToList();
             
@@ -65,7 +51,7 @@ namespace TodoListCLI
             lines.ForEach(Console.WriteLine);
         }
 
-        public static void PrintTodos(TodoStatus? status = null) => PrintTodos(Current.Todos, status);
+        public static void PrintTodos(TodoStatus? status = null) => PrintTodos(CLI.CurrentTodoList.Todos, status);
 
         public static IEnumerable<Todo> SortTodos(List<Todo> todos) => todos.OrderBy(todo => todo.Status).ThenBy(todo => todo.Deadline);
     }

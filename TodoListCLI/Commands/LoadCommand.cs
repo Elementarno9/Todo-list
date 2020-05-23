@@ -14,7 +14,7 @@ namespace TodoListCLI.Commands
 
             try
             {
-                TodoList.ChangeCurrent(TodoStorage.LoadTodoList(args[0]));
+                CLI.ChangeCurrentTodoList(TodoStorage.LoadTodoList(args[0]));
                 CLI.ColorfulWriteLine("Successfully loaded.", CLI.ConsoleColors["success"]);
             } catch (Exception)
             {

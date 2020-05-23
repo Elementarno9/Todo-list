@@ -13,7 +13,7 @@ namespace TodoListCLI.Commands
 
             if (tags.Count == 0) throw new TodoListException("No tags. See `help search` to find more.");
 
-            var suitableTodos = TodoList.Current.Todos.Where(todo => args.Select(tag => todo.HasTag(tag)).Contains(true)).ToList();
+            var suitableTodos = CLI.CurrentTodoList.Todos.Where(todo => args.Select(tag => todo.HasTag(tag)).Contains(true)).ToList();
 
             if (suitableTodos.Count == 0) throw new TodoListException("No suitable todos.");
             TodoList.PrintTodos(suitableTodos);

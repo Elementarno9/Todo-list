@@ -26,7 +26,7 @@ namespace TodoListCLI.Commands
                     throw new TodoListException("Invalid status.");
             }
 
-            var suitableTodos = TodoList.SortTodos(TodoList.Current.Todos.Where(todo => todo.Title == title && todo.Status != status).ToList()).ToList();
+            var suitableTodos = TodoList.SortTodos(CLI.CurrentTodoList.Todos.Where(todo => todo.Title == title && todo.Status != status).ToList()).ToList();
             Todo toChange;
 
             if (suitableTodos.Count == 0) throw new TodoListException("No suitable todos.");

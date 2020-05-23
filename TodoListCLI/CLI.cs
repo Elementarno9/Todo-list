@@ -6,7 +6,7 @@ using TodoListCLI.Commands;
 
 namespace TodoListCLI
 {
-    class CLI
+    static class CLI
     {
         public static readonly Dictionary<string, ConsoleColor> ConsoleColors = new Dictionary<string, ConsoleColor>()
         {
@@ -15,8 +15,6 @@ namespace TodoListCLI
             ["success"] = ConsoleColor.Green,
             ["error"] = ConsoleColor.Red
         };
-
-        public bool IsWorking { get; private set; }
 
         public static readonly Dictionary<string, ICommand> Commands = new Dictionary<string, ICommand>()
         {
@@ -30,27 +28,31 @@ namespace TodoListCLI
             ["clear"] = new ClearCommand(),
             ["exit"] = new ExitCommand(),
         };
-        public static CLI Current
+
+        public static TodoList CurrentTodoList
         {
             get
             {
-                current ??= new CLI();
-                return current;
+                currentTodoList ??= new TodoList(new List<Todo>());
+                return currentTodoList;
             }
             private set
             {
-                current = value;
+                currentTodoList = value;
             }
         }
 
-        private static CLI current;
+        private static TodoList currentTodoList;
+        public static bool IsWorking { get; private set; }
+
+        public static void ChangeCurrentTodoList(TodoList todoList) => CurrentTodoList = todoList;
 
         static void Main(string[] args)
         {
-            Current.Run();
+            Run();
         }
 
-        public void Run()
+        static void Run()
         {
             IsWorking = true;
             while (IsWorking)
@@ -65,7 +67,7 @@ namespace TodoListCLI
             }
         }
 
-        private void HandleInput(string[] input)
+        private static void HandleInput(string[] input)
         {
             if (input.Length == 0 || string.IsNullOrWhiteSpace(input[0])) throw new TodoListException("Nothing in input.");
 
@@ -78,7 +80,7 @@ namespace TodoListCLI
             }
         }
 
-        public void Stop() => IsWorking = false;
+        public static void Stop() => IsWorking = false;
 
         public static string GetConsoleInput(string line = "", bool colorful = true)
         {

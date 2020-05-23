@@ -22,7 +22,7 @@ namespace TodoListCLI.Storage
 
         public static bool SaveTodoList(string path, TodoList list) => StorageSystem.SaveTodoList(path, list);
 
-        public static bool SaveTodoList(string path) => SaveTodoList(path, TodoList.Current);
+        public static bool SaveTodoList(string path) => SaveTodoList(path, CLI.CurrentTodoList);
 
         public static TodoList LoadTodoList(string path) => StorageSystem.LoadTodoList(path);
 
