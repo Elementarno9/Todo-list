@@ -7,7 +7,7 @@ using System.Runtime.Serialization;
 namespace TodoListCLI
 {
     
-    [DataContract(Name="Todo")]
+    [DataContract(Name="TodoList")]
     class TodoList
     {
         [DataMember]
