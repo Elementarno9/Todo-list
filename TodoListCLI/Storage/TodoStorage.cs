@@ -10,6 +10,7 @@ namespace TodoListCLI.Storage
         private static readonly Dictionary<string, ITodoStorageSystem> StorageSystems = new Dictionary<string, ITodoStorageSystem>()
         {
             ["XMLDocument"] = new TodoXMLStorageSystem(),
+            ["LINQtoXML"] = new TodoLINQtoXMLStorageSystem(),
         };
 
         public static ITodoStorageSystem StorageSystem
