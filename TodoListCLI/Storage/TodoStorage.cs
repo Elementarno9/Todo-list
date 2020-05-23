@@ -11,6 +11,7 @@ namespace TodoListCLI.Storage
         {
             ["XMLDocument"] = new TodoXMLStorageSystem(),
             ["LINQtoXML"] = new TodoLINQtoXMLStorageSystem(),
+            ["XMLSerialization"] = new TodoXMLSerializationStorageSystem(),
         };
 
         public static ITodoStorageSystem StorageSystem
@@ -21,9 +22,9 @@ namespace TodoListCLI.Storage
             }
         }
 
-        public static bool SaveTodoList(string path, TodoList list) => StorageSystem.SaveTodoList(path, list);
+        public static void SaveTodoList(string path, TodoList list) => StorageSystem.SaveTodoList(path, list);
 
-        public static bool SaveTodoList(string path) => SaveTodoList(path, CLI.CurrentTodoList);
+        public static void SaveTodoList(string path) => SaveTodoList(path, CLI.CurrentTodoList);
 
         public static TodoList LoadTodoList(string path) => StorageSystem.LoadTodoList(path);
 

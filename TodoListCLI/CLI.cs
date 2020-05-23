@@ -33,7 +33,7 @@ namespace TodoListCLI
         {
             get
             {
-                currentTodoList ??= new TodoList(new List<Todo>());
+                currentTodoList ??= new TodoList();
                 return currentTodoList;
             }
             private set

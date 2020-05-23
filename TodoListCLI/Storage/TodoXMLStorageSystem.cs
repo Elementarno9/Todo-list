@@ -36,7 +36,7 @@ namespace TodoListCLI.Storage
             return new TodoList(todos);
         }
 
-        public bool SaveTodoList(string path, TodoList list)
+        public void SaveTodoList(string path, TodoList list)
         {
             XmlDocument xDoc = new XmlDocument();
 
@@ -75,7 +75,6 @@ namespace TodoListCLI.Storage
 
 
             xDoc.Save(path);
-            return true;
         }
     }
 }

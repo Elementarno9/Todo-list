@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Linq;
+﻿using System.Linq;
 using System.Xml.Linq;
 
 namespace TodoListCLI.Storage
@@ -21,7 +18,7 @@ namespace TodoListCLI.Storage
                 ).ToList());
         }
 
-        public bool SaveTodoList(string path, TodoList list)
+        public void SaveTodoList(string path, TodoList list)
         {
             var elemNames = new[] { "Title", "Description", "Deadline", "Tags", "Status" };
 
@@ -36,7 +33,6 @@ namespace TodoListCLI.Storage
                 )));
 
             doc.Save(path);
-            return true;
         }
     }
 }

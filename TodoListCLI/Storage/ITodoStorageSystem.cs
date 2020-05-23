@@ -6,7 +6,7 @@ namespace TodoListCLI.Storage
 {
     interface ITodoStorageSystem
     {
-        public bool SaveTodoList(string path, TodoList list);
+        public void SaveTodoList(string path, TodoList list);
         public TodoList LoadTodoList(string path);
     }
 }

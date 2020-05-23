@@ -2,24 +2,33 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Runtime.Serialization;
+using System.Xml.Serialization;
 
 namespace TodoListCLI
 {
-    enum TodoStatus
+    public enum TodoStatus
     {
         Active,
         Success,
         Failure
     }
 
-    class Todo
+    [DataContract(Name="Todo")]
+    public class Todo
     {
+        [DataMember]
         public string Title { get; private set; }
+        [DataMember]
         public string Description { get; private set; }
+        [DataMember]
         public DateTime Deadline { get; private set; }
+        [DataMember]
         public List<string> Tags { get; private set; }
-
+        [DataMember]
         public TodoStatus Status { get; private set; }
+
+        public Todo() : this("", "", DateTime.Now) { }
 
         public Todo(string title, string description, DateTime deadline, List<string> tags = null, TodoStatus status = TodoStatus.Active)
         {
