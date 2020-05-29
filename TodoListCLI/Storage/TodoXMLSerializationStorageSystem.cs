@@ -1,6 +1,8 @@
 ﻿using System.IO;
 using System.Runtime.Serialization;
 using System.Xml;
+using System.Xml.Schema;
+using System.Xml.Serialization;
 
 namespace TodoListCLI.Storage
 {
@@ -11,8 +13,9 @@ namespace TodoListCLI.Storage
             using(var stream = new FileStream(path, FileMode.Open))
             using (var reader = XmlReader.Create(stream))
             {
-                var serializer = new DataContractSerializer(typeof(TodoList));
-                return serializer.ReadObject(reader) as TodoList;
+                var serializer = new XmlSerializer(typeof(TodoListType));
+                var data = serializer.Deserialize(reader) as TodoListType;
+                return data.ToTodoList();
             }
         }
 
@@ -20,8 +23,8 @@ namespace TodoListCLI.Storage
         {
             using (var stream = new FileStream(path, FileMode.Create))
             {
-                var serializer = new DataContractSerializer(typeof(Todo));
-                serializer.WriteObject(stream, list);
+                var serializer = new XmlSerializer(typeof(TodoListType));
+                serializer.Serialize(stream, TodoListType.Parse(list));
             }
         }
     }

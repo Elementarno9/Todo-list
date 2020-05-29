@@ -22,9 +22,10 @@ namespace TodoListCLI.Storage
         {
             var elemNames = new[] { "Title", "Description", "Deadline", "Tags", "Status" };
 
-            var doc = new XDocument(new XElement("TodoList",
+            var doc = new XDocument(new XDeclaration("1.0", "utf-8", ""),
+                new XElement("TodoList",
                 list.Todos.Select(todo => new XElement("Todo",
-                    todo.GetInfo().Select((field, i) =>
+                    todo.GetInfo(dateFormat: "s").Select((field, i) =>
                     {
                         object data = field;
                         if (elemNames[i] == "Tags") data = todo.Tags.Select(tag => new XElement("Tag", tag)).ToArray();

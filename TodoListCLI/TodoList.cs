@@ -1,16 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Linq;
-using System.Runtime.Serialization;
 
 namespace TodoListCLI
 {
-    
-    [DataContract(Name="TodoList")]
-    class TodoList
+    public class TodoList
     {
-        [DataMember]
         public List<Todo> Todos { get; private set; }
 
         public TodoList() : this(new List<Todo>()) { }

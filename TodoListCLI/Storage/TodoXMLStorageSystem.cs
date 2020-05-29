@@ -38,6 +38,7 @@ namespace TodoListCLI.Storage
         public void SaveTodoList(string path, TodoList list)
         {
             XmlDocument xDoc = new XmlDocument();
+            xDoc.AppendChild(xDoc.CreateXmlDeclaration("1.0", "utf-8", ""));
 
             var root = xDoc.CreateElement("TodoList");
             xDoc.AppendChild(root);
@@ -46,7 +47,7 @@ namespace TodoListCLI.Storage
             {
                 XmlElement todoElem = xDoc.CreateElement("Todo");
 
-                var elements = todo.GetInfo().ToList();
+                var elements = todo.GetInfo(dateFormat: "s").ToList();
                 elements.RemoveAt(3); // Special output for tags
 
                 var elemNames = new[] { "Title", "Description", "Deadline", "Status" };

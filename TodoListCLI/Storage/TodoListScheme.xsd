@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="TodoListScheme" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="TodoList" type="TodoListType"/>
+
+  <xs:complexType name="TodoListType">
+    <xs:sequence>
+      <xs:element name="Todo" type="TodoType" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="TodoType">
+    <xs:sequence>
+      <xs:element name="Title" type="xs:string"/>
+      <xs:element name="Description" type="xs:string"/>
+      <xs:element name="Deadline" type="xs:dateTime"/>
+      <xs:element name="Status" type="xs:string"/>
+      <xs:element name="Tags" type="TagsType"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="TagsType">
+    <xs:sequence>
+      <xs:element name="Tag" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>
